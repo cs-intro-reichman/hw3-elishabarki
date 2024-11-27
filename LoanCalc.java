@@ -40,7 +40,7 @@ public class LoanCalc {
             g += epsilon;
             iterationCounter++;
         }       
-        System.out.println(g);
+        //System.out.println(g);
         return g;
     }
     
@@ -69,7 +69,7 @@ public class LoanCalc {
             }               
             iterationCounter ++;
         }            
-        System.out.println(g);
+        //System.out.println(g);
         return g;
     }
 }
