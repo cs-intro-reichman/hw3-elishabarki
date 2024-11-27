@@ -23,9 +23,16 @@ public class Anagram {
     }  
 
     public static boolean isAnagram(String str1, String str2) {
+        // Preprocess and clean spaces
+        str1 = preProcess(str1).replace(" ", "");
+        str2 = preProcess(str2).replace(" ", "");
+
+        // Length check after cleaning
         if (str1.length() != str2.length()) {
             return false;
         }
+
+        // Compare characters
         StringBuilder str2Builder = new StringBuilder(str2);
         for (int i = 0; i < str1.length(); i++) {
             char ch = str1.charAt(i);
@@ -41,16 +48,16 @@ public class Anagram {
     public static String preProcess(String str) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i); 
+            char ch = str.charAt(i);
             if (Character.isLetter(ch)) {
-                result.append(Character.toLowerCase(ch)); 
+                result.append(Character.toLowerCase(ch)); // Keep letters, convert to lowercase
             } else if (ch == ' ') {
-                result.append(ch); 
+                result.append(' '); // Preserve spaces
             }
         }
-        return result.toString(); 
-    } 
-       
+        return result.toString();
+    }
+
     public static String randomAnagram(String str) {
         List<Character> charList = new ArrayList<>();
         for (char c : str.toCharArray()) {
@@ -65,3 +72,4 @@ public class Anagram {
         return shuffledString.toString();
     }
 }
+
