@@ -72,36 +72,42 @@ public class Algebra {
         if (a > 0) {
             while (a >= b) {
                 a = minus(a, b);
-                division ++;
+                division++;
             }
         }
         if (a < 0) {
             while (a != 0) {
                 a = plus(a, b);
-                division --;
+                division--;
             }
         }
         return division;
     }
 
     public static int mod(int a, int b) {
-        int modulo = a-(div(a, b)*b);
+        int modulo = minus(a, times(div(a, b), b));
         return modulo;
     }
 
     public static int sqrt(int a) {
-        int root = 1;
-        int n = 1;
-        if (root == a) {
-            n = 2;
-        }
-        if (a == 0) {
-            n = 1;
-        }
-        while ((root != a) && (a != 0)){
-            root = pow(n, 2);
-            n ++;
-        }
-        return (n-1);
+            int root = 0;
+            while (times(root, root) <= a) {
+                root++;
+            }
+            return (--root);
+        
+    //     int root = 1;
+    //     int n = 1;
+    //     if (root == a) {
+    //         n = 2;
+    //     }
+    //     if (a == 0) {
+    //         n = 1;
+    //     }
+    //     while ((root < a) && (a != 0)){
+    //         root = pow(n, 2);
+    //         n++;
+    //     }
+    //     return (--n);
+      }
     }
-}
