@@ -1,5 +1,4 @@
 public class Algebra {
-//is it required to consider negative inputs?? otherwise get rid of the useless part of plus and minus
     public static void main(String[] args) {
         int a = Integer.parseInt(args[0]);
         int b = Integer.parseInt(args[1]);
@@ -47,8 +46,15 @@ public class Algebra {
 
     public static int times(int a, int b) {
         int multiplication = 0;
-        for (int i = 0; i < b; i++) {
-            multiplication = plus(multiplication, a);
+        if (b >= 0) {
+            for (int i = 0; i < b; i++) {
+                multiplication = plus(multiplication, a);
+            }
+        }
+        else {
+            for (int i = b; i < 0; i++) {
+                multiplication = minus(multiplication, a);
+            }
         }
         return multiplication;
     }
@@ -63,9 +69,17 @@ public class Algebra {
 
     public static int div(int a, int b) {
         int division = 0;
-        while (a >= b) {
-            a = minus(a, b);
-            division ++;
+        if (a > 0) {
+            while (a >= b) {
+                a = minus(a, b);
+                division ++;
+            }
+        }
+        if (a < 0) {
+            while (a != 0) {
+                a = plus(a, b);
+                division --;
+            }
         }
         return division;
     }
@@ -78,7 +92,13 @@ public class Algebra {
     public static int sqrt(int a) {
         int root = 1;
         int n = 1;
-        while (root != a) {
+        if (root == a) {
+            n = 2;
+        }
+        if (a == 0) {
+            n = 1;
+        }
+        while ((root != a) && (a != 0)){
             root = pow(n, 2);
             n ++;
         }
