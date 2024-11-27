@@ -1,7 +1,7 @@
 public class LoanCalc {
 	
 	static double epsilon = 0.001;  
-	static int iterationCounter; 
+	static int iterationCounter = 1; 
 	
 	// Gets the loan data and computes the periodical payment.
     // Expects to get three command-line arguments: loan amount (double),
@@ -51,6 +51,7 @@ public class LoanCalc {
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
     public static double bisectionSolver(double loan, double rate, double n, double epsilon) {
+        iterationCounter=0;
         double balance = loan;
         double hi = loan;
         double lo = loan/n;  
