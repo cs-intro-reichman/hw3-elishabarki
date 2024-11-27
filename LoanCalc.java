@@ -1,75 +1,100 @@
-public class LoanCalc {
-	
-	static double epsilon = 0.001;  
-	static int iterationCounter; 
-	
-	// Gets the loan data and computes the periodical payment.
-    // Expects to get three command-line arguments: loan amount (double),
-    // interest rate (double, as a percentage), and number of payments (int).  
-	public static void main(String[] args) {		
-		// Gets the loan data
-		double loan = Double.parseDouble(args[0]);
-		double rate = Double.parseDouble(args[1]) / 100 + 1;
-		int n = Integer.parseInt(args[2]);
-		System.out.println("Loan = " + loan + ", interest rate = " + rate + "%, periods = " + n);
+public class TestAnagram {
+    private static int totalTests = 0;
+    private static int passedTests = 0;
 
-		// Computes the periodical payment using brute force search
-		System.out.print("\nPeriodical payment, using brute force: ");
-		System.out.println((int) bruteForceSolver(loan, rate, n, epsilon));
-		System.out.println("number of iterations: " + iterationCounter);
+    public static void main(String[] args) {
+        testIsAnagram();
+        testPreProcess();
+        testRandomAnagram();
+        
+        System.out.print("\nTotal tests: " + totalTests);
+        System.out.print(" Passed tests: " + passedTests);
+        System.out.print(" Success rate: " + (passedTests * 100.0 / totalTests) + "%");
+    }
 
-		// Computes the periodical payment using bisection search
-		System.out.print("\nPeriodical payment, using bi-section search: ");
-		System.out.println((int) bisectionSolver(loan, rate, n, epsilon));
-		System.out.println("number of iterations: " + iterationCounter);
-	}
-	
-	// Uses sequential search to compute an approximation of the periodical payment
-	// that will bring the ending balance of a loan close to 0.
-	// Given: the sum of the loan, the periodical interest rate (as a percentage),
-	// the number of periods (n), and epsilon, the approximation's accuracy
-	// Side effect: modifies the class variable iterationCounter.
-    public static double bruteForceSolver(double loan, double rate, double n, double epsilon) {
-        double balance = loan;
-        double g = loan/n;
-        while (balance > 0) {      
-            balance = loan;
-            for (int i = 0; i < n; i++) {
-                balance = (balance - g)*rate;          
-            }             
-            g += epsilon;
-            iterationCounter++;
-        }       
-        System.out.println(g);
-        return g;
+    public static int testIsAnagram() {
+        System.out.println("\nTesting isAnagram method:");
+        totalTests += 5;
+
+        // Test case 1: Basic anagram
+        boolean test1 = Anagram.isAnagram("silent", "listen");
+        System.out.println("Test 1 (basic anagram): " + (test1 ? "PASS" : "FAIL"));
+        
+        // Test case 2: Different lengths
+        boolean test2 = !Anagram.isAnagram("hello", "world!");
+        System.out.println("Test 2 (different lengths): " + (test2 ? "PASS" : "FAIL"));
+        
+        // Test case 4: Empty strings
+        boolean test4 = Anagram.isAnagram("", "");
+        System.out.println("Test 4 (empty strings): " + (test4 ? "PASS" : "FAIL"));
+        
+        // Test case 5: Complex anagram with spaces
+        boolean test5 = Anagram.isAnagram("William Shakespeare", "I am a weakish speller");
+        System.out.println("Test 5 (complex anagram): " + (test5 ? "PASS" : "FAIL"));
+        
+        // Test case 6: Case sensitivity
+        boolean test6 = Anagram.isAnagram("Silent", "ListeN");
+        System.out.println("Test 6 (case sensitivity): " + (test6 ? "PASS" : "FAIL"));
+
+        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0) + 
+                    (test4 ? 1 : 0) + (test5 ? 1 : 0) + (test6 ? 1 : 0);
+        passedTests += passed;
+        return passed;
     }
-    
-    // Uses bisection search to compute an approximation of the periodical payment 
-	// that will bring the ending balance of a loan close to 0.
-	// Given: the sum of the loan, the periodical interest rate (as a percentage),
-	// the number of periods (n), and epsilon, the approximation's accuracy
-	// Side effect: modifies the class variable iterationCounter.
-    public static double bisectionSolver(double loan, double rate, double n, double epsilon) {
-        double balance = loan;
-        double hi = loan;
-        double lo = loan/n;  
-        double g = (lo+hi)/2;
-        while ((hi-lo) > epsilon) {      
-            balance = loan;
-            for (int i = 0; i < n; i++) {
-                balance = (balance - g)*rate;          
-            }   
-            if (balance > 0) { 
-                lo = g;
-                g = (lo+hi)/2;
-                
-            } else { 
-                hi = g;
-                g = (lo+hi)/2;
-            }               
-            iterationCounter ++;
-        }            
-        System.out.println(g);
-        return g;
+
+    public static int testPreProcess() {
+        System.out.println("\nTesting preProcess method:");
+        totalTests += 4;
+
+        // Test case 1: Simple lowercase
+        boolean test1 = Anagram.preProcess("abc").equals("abc");
+        System.out.println("Test 1 (simple lowercase): " + (test1 ? "PASS" : "FAIL"));
+        
+        // Test case 2: Preserve spaces
+        boolean test2 = Anagram.preProcess("Hello World!").equals("hello world");
+        System.out.println("Test 2 (preserve spaces): " + (test2 ? "PASS" : "FAIL"));
+        
+        // Test case 3: Convert to lowercase
+        boolean test3 = Anagram.preProcess("HeLLo").equals("hello");
+        System.out.println("Test 3 (case conversion): " + (test3 ? "PASS" : "FAIL"));
+        
+        // Test case 4: Empty string
+        boolean test4 = Anagram.preProcess("").equals("");
+        System.out.println("Test 4 (empty string): " + (test4 ? "PASS" : "FAIL"));
+
+        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0) + (test3 ? 1 : 0) + (test4 ? 1 : 0);
+        passedTests += passed;
+        return passed;
     }
-}
+
+    public static int testRandomAnagram() {
+        System.out.println("\nTesting randomAnagram method:");
+        totalTests += 3;
+        
+        // Test case 1: Check if result is an anagram
+        String original = "hello";
+        String randomized = Anagram.randomAnagram(original);
+        boolean test1 = Anagram.isAnagram(original, randomized);
+        System.out.println("Test 1 (is anagram): " + (test1 ? "PASS" : "FAIL"));
+        
+        // Test case 2: Check if same length
+        boolean test2 = original.length() == randomized.length();
+        System.out.println("Test 2 (same length): " + (test2 ? "PASS" : "FAIL"));
+        
+        // Test case 3: Check randomness (run multiple times)
+        boolean foundDifferent = false;
+        String first = Anagram.randomAnagram("testing");
+        for (int i = 0; i < 10; i++) {
+            String next = Anagram.randomAnagram("testing");
+            if (!first.equals(next)) {
+                foundDifferent = true;
+                break;
+            }
+        }
+        System.out.println("Test 3 (randomness): " + (foundDifferent ? "PASS" : "FAIL"));
+
+        int passed = (test1 ? 1 : 0) + (test2 ? 1 : 0) + (foundDifferent ? 1 : 0);
+        passedTests += passed;
+        return passed;
+    }
+} 
